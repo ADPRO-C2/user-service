@@ -1,14 +1,14 @@
-package com.example.secondtreasurebe;
+package com.example.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SecondtreasureBeApplicationTests {
+class UserApplicationTests {
 
     @Test
     void contextLoads() {
-        SecondtreasureBeApplication.main(new String[] {});
+        UserApplication.main(new String[] {});
     }
 
 }
