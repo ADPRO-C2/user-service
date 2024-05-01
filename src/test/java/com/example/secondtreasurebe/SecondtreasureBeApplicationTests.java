@@ -8,6 +8,7 @@ class SecondtreasureBeApplicationTests {
 
     @Test
     void contextLoads() {
+        SecondtreasureBeApplication.main(new String[] {});
     }
 
 }
