@@ -11,6 +11,6 @@ ENV JDBC_DATABASE_USERNAME ${JDBC_DATABASE_USERNAME}
 
 WORKDIR /app
 RUN ls -al
-COPY ./secondtreasure-user-0.0.1-SNAPSHOT.jar /app
+COPY ./user-0.0.1-SNAPSHOT.jar /app
 EXPOSE 8080
-CMD ["java","-jar","secondtreasure-user-0.0.1-SNAPSHOT.jar"]
+CMD ["java","-jar","user-0.0.1-SNAPSHOT.jar"]
