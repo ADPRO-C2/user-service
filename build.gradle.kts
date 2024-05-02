@@ -30,6 +30,8 @@ val junitJupiterVersion = "5.9.1"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
@@ -56,8 +58,9 @@ tasks.jacocoTestReport {
     }))
     dependsOn(tasks.test) // tests are required to run before generating the report
     reports {
-        xml.required.set(false)
+        xml.required = true
         csv.required.set(false)
+        html.required = true
         html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
     }
 }

@@ -1,4 +1,4 @@
-package com.example.secondtreasurebe.controller;
+package com.example.user.controller;
 
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
