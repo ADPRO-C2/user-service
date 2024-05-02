@@ -14,19 +14,19 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
 
     @Column(name = "username")
-    String username;
+    private String username;
 
     @Column(name = "email")
-    String email;
+    private String email;
 
     @Column(name = "password")
-    String password;
+    private String password;
 
     @Enumerated(value = EnumType.STRING)
-    Role role;
+    private Role role;
 
     public Integer getId() {
         return id;
