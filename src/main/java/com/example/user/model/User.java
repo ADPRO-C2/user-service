@@ -14,19 +14,22 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    private Integer id;
 
     @Column(name = "username")
-    String username;
+    private String username;
 
     @Column(name = "email")
-    String email;
+    private String email;
+
+    @Column(name = "adress")
+    private String adress;
 
     @Column(name = "password")
-    String password;
+    private String password;
 
     @Enumerated(value = EnumType.STRING)
-    Role role;
+    private Role role;
 
     public Integer getId() {
         return id;
@@ -38,6 +41,10 @@ public class User implements UserDetails {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getAdress() {
+        return adress;
     }
 
     @Override
@@ -70,6 +77,10 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 
     @Override
