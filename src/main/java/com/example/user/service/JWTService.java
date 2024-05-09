@@ -54,7 +54,6 @@ public class JWTService {
                 .expiration(new Date(System.currentTimeMillis() + 24*60*60*1000 ))
                 .signWith(getSigninKey())
                 .compact();
-
         return token;
     }
 
@@ -70,12 +69,9 @@ public class JWTService {
 
     public boolean isValid(String token, UserDetails user) {
         String username = extractUsername(token);
-
         Token validTokens = tokenRepository.findByToken(token)
                 .orElseThrow(() -> new RuntimeException("Token not found"));
-
         boolean validToken = !validTokens.isLoggedOut();
-
         return (username.equals(user.getUsername())) && !isTokenExpired(token) && validToken;
     }
 
