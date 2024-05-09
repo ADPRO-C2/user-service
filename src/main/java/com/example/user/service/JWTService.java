@@ -71,9 +71,11 @@ public class JWTService {
 
     public boolean isValid(String token, UserDetails user) {
         String username = extractUsername(token);
-        Token validTokens = tokenRepository.findByToken(token)
-                .orElseThrow(() -> new RuntimeException("Token not found"));
-        boolean validToken = !validTokens.isLoggedOut();
+        Token findedToken = tokenRepository.findByToken(token).orElse(null);
+        boolean validToken = false;
+        if (findedToken != null) {
+            validToken = !findedToken.isLoggedOut();
+        }
         return (username.equals(user.getUsername())) && !isTokenExpired(token) && validToken;
     }
 
@@ -88,13 +90,11 @@ public class JWTService {
     }
 
     public Token revokeTokenByUser(User user) {
-        Token validTokens = tokenRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("Token not found"));
-
-        validTokens.setLoggedOut(true);
-
-        tokenRepository.save(validTokens);
-
+        Token validTokens = tokenRepository.findByUser(user).orElse(null);
+        if (validTokens == null) {
+            return null;
+        }
+        tokenRepository.delete(validTokens);
         return validTokens;
     }
 
