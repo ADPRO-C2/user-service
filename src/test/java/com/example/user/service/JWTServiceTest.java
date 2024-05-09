@@ -48,9 +48,10 @@ public class JWTServiceTest {
     }
 
     @Test
-    public void testIsValidThrowsException() {
+    public void testIsValidTokenNotFound() {
         when(tokenRepository.findByToken(token.getToken())).thenReturn(Optional.empty());
-        assertThrows(RuntimeException.class, () -> jwtService.isValid(token.getToken(), user));
+        boolean isValid = jwtService.isValid(token.getToken(), user);
+        assertFalse(isValid);
     }
 
     @Test
@@ -81,17 +82,14 @@ public class JWTServiceTest {
     public void testRevokeTokenByUser() {
         when(tokenRepository.findByUser(user)).thenReturn(Optional.of(token));
         Token revokedToken = jwtService.revokeTokenByUser(user);
-        assertEquals(token.getToken(), revokedToken.getToken());
-        assertTrue(revokedToken.isLoggedOut());
+        verify(tokenRepository, times(1)).delete(token);
+        assertEquals(token, revokedToken);
     }
 
     @Test
-    public void testRevokeTokenByUserThrowsException() {
-        User user = new User();
-        user.setUsername("testUsername");
-
+    public void testRevokeTokenByUserReturnsNull() {
         when(tokenRepository.findByUser(user)).thenReturn(Optional.empty());
-
-        assertThrows(RuntimeException.class, () -> jwtService.revokeTokenByUser(user));
+        Token revokedToken = jwtService.revokeTokenByUser(user);
+        assertNull(revokedToken);
     }
 }
