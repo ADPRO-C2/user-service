@@ -19,7 +19,7 @@ import java.util.function.Function;
 @Service
 public class JWTService {
 
-    @Value("${JWT_SECRET_KET}")
+    @Value("${jwt.secret}")
     private String SECRET_KEY;
 
     @Autowired

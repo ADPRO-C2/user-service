@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
@@ -27,6 +28,7 @@ public class JWTServiceTest {
 
     @BeforeEach
     public void setup() {
+        ReflectionTestUtils.setField(jwtService, "SECRET_KEY", "ca01c1636a92b9ebd100630a0d4565258c2d70e3057938b09ca3ebc991be40ae");
         user = new User();
         user.setUsername("testUser");
         token = jwtService.saveUserToken(user);
