@@ -63,12 +63,10 @@ public class AuthServiceTest {
     public void testRegister() {
         when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.empty());
         when(passwordEncoder.encode(user.getPassword())).thenReturn("encodedPassword");
-        when(userRepository.save(any(User.class))).thenReturn(user);
-        when(jwtService.saveUserToken(user)).thenReturn(token);
 
         ResponseEntity<AuthResponse> response = authService.register(user);
 
-        assertEquals(token.getToken(), response.getBody().getToken());
+        assertNull(response.getBody().getToken());
         assertEquals("User registered successfully", response.getBody().getMessage());
     }
 

@@ -35,14 +35,13 @@ public class AuthService {
         }
         User user = new User();
         user.setEmail(request.getEmail());
-        user.setAdress(request.getAdress());
+        user.setAddress(request.getAddress());
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(request.getRole());
-        user = repository.save(user);
-        Token jwt = jwtService.saveUserToken(user);
+        repository.save(user);
 
-        return ResponseEntity.ok(new AuthResponse(jwt.getToken(), "User registered successfully"));
+        return ResponseEntity.ok(new AuthResponse(null, "User registered successfully"));
     }
 
     public ResponseEntity<AuthResponse> authenticate(User request, HttpServletResponse response) {

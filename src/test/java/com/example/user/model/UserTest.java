@@ -19,7 +19,7 @@ public class UserTest {
         user.setId(1);
         user.setUsername("testUser");
         user.setEmail("testUser@example.com");
-        user.setAdress("testAdress");
+        user.setAddress("testAdress");
         user.setPassword("password");
         user.setRole(Role.USER);
     }
@@ -41,7 +41,7 @@ public class UserTest {
 
     @Test
     void getAdress() {
-        assertEquals("testAdress", user.getAdress());
+        assertEquals("testAdress", user.getAddress());
     }
 
     @Test
@@ -99,8 +99,8 @@ public class UserTest {
 
     @Test
     void setAdress() {
-        user.setAdress("newAdress");
-        assertEquals("newAdress", user.getAdress());
+        user.setAddress("newAdress");
+        assertEquals("newAdress", user.getAddress());
     }
 
     @Test

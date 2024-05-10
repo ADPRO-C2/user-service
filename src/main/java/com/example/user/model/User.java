@@ -22,8 +22,8 @@ public class User implements UserDetails {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "adress")
-    private String adress;
+    @Column(name = "address")
+    private String address;
 
     @Column(name = "password")
     private String password;
@@ -43,8 +43,8 @@ public class User implements UserDetails {
         return username;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
     @Override
@@ -79,8 +79,8 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String adress) {
+        this.address = adress;
     }
 
     @Override
