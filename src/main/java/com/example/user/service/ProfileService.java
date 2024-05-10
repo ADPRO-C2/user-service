@@ -26,7 +26,7 @@ public class ProfileService {
             return ResponseEntity.badRequest().body(new ProfileResponse("Invalid token", null, null, null, null));
         }
         User user = storedToken.getUser();
-        return ResponseEntity.ok(new ProfileResponse("User profile retrieved successfully", user.getId(), user.getUsername(), user.getEmail(), user.getAdress()));
+        return ResponseEntity.ok(new ProfileResponse("User profile retrieved successfully", user.getId(), user.getUsername(), user.getEmail(), user.getAddress()));
     }
 
     public ResponseEntity<ProfileResponse> updatePassword(String token, String oldPassword, String newPassword) {
@@ -50,7 +50,7 @@ public class ProfileService {
             return ResponseEntity.badRequest().body(new ProfileResponse("Invalid token", null, null, null, null));
         }
         User user = storedToken.getUser();
-        user.setAdress(address);
+        user.setAddress(address);
         userRepository.save(user);
 
         return ResponseEntity.ok(new ProfileResponse("Address updated successfully", null, null, null, null));
