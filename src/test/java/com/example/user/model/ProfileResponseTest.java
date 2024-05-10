@@ -20,5 +20,6 @@ public class ProfileResponseTest {
         assertEquals(expectedId, profileResponse.getId());
         assertEquals(expectedUsername, profileResponse.getUsername());
         assertEquals(expectedEmail, profileResponse.getEmail());
+        assertEquals(expectedAddress, profileResponse.getAddress());
     }
 }
