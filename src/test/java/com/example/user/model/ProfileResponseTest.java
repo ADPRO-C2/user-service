@@ -12,8 +12,9 @@ public class ProfileResponseTest {
         Integer expectedId = 1;
         String expectedUsername = "testUsername";
         String expectedEmail = "testEmail@example.com";
+        String expectedAddress = "testAddress";
 
-        ProfileResponse profileResponse = new ProfileResponse(expectedMessage, expectedId, expectedUsername, expectedEmail);
+        ProfileResponse profileResponse = new ProfileResponse(expectedMessage, expectedId, expectedUsername, expectedEmail, expectedAddress);
 
         assertEquals(expectedMessage, profileResponse.getMessage());
         assertEquals(expectedId, profileResponse.getId());

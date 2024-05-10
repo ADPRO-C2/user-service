@@ -1,18 +1,18 @@
 package com.example.user.model;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class ProfileResponse {
     private final String message;
     private final Integer id;
     private final String username;
     private final String email;
+    private final String address;
 
-    public ProfileResponse(String message, Integer id, String username, String email) {
+    public ProfileResponse(String message, Integer id, String username, String email, String address) {
         this.message = message;
         this.id = id;
         this.username = username;
         this.email = email;
+        this.address = address;
     }
     public String getMessage() {
         return message;
@@ -25,5 +25,8 @@ public class ProfileResponse {
     }
     public String getEmail() {
         return email;
+    }
+    public String getAddress() {
+        return address;
     }
 }
