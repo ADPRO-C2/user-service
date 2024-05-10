@@ -3,6 +3,7 @@ package com.example.user.controller;
 import com.example.user.model.AuthResponse;
 import com.example.user.model.User;
 import com.example.user.service.AuthService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,8 +25,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(
-            @RequestBody User request
+            @RequestBody User request,
+            HttpServletResponse response
     ) {
-        return authService.authenticate(request);
+        return authService.authenticate(request, response);
     }
 }

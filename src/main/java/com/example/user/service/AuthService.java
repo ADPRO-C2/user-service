@@ -5,6 +5,7 @@ import com.example.user.model.Token;
 import com.example.user.model.User;
 import com.example.user.repository.TokenRepository;
 import com.example.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,7 +45,7 @@ public class AuthService {
         return ResponseEntity.ok(new AuthResponse(jwt.getToken(), "User registered successfully"));
     }
 
-    public ResponseEntity<AuthResponse> authenticate(User request) {
+    public ResponseEntity<AuthResponse> authenticate(User request, HttpServletResponse response) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
@@ -58,6 +59,7 @@ public class AuthService {
         jwtService.revokeTokenByUser(user);
         Token jwt = jwtService.saveUserToken(user);
 
+        response.addHeader("Set-Cookie", "jwt=" + jwt.getToken() + "; HttpOnly; SameSite=None; Secure; Path=/");
         return ResponseEntity.ok(new AuthResponse(jwt.getToken(), "User authenticated successfully"));
     }
 }

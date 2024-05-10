@@ -6,6 +6,7 @@ import com.example.user.model.User;
 import com.example.user.repository.TokenRepository;
 import com.example.user.repository.UserRepository;
 import com.example.user.service.JWTService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -94,22 +95,24 @@ public class AuthServiceTest {
 
     @Test
     public void testAuthenticate() {
+        HttpServletResponse response = mock(HttpServletResponse.class);
         when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.of(user));
         when(jwtService.saveUserToken(user)).thenReturn(token);
 
-        ResponseEntity<AuthResponse> response = authService.authenticate(user);
+        ResponseEntity<AuthResponse> result = authService.authenticate(user, response);
 
-        assertEquals(token.getToken(), response.getBody().getToken());
-        assertEquals("User authenticated successfully", response.getBody().getMessage());
+        assertEquals(token.getToken(), result.getBody().getToken());
+        assertEquals("User authenticated successfully", result.getBody().getMessage());
     }
 
     @Test
     public void testAuthenticateNotFound() {
+        HttpServletResponse response = mock(HttpServletResponse.class);
         when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.empty());
 
-        ResponseEntity<AuthResponse> response = authService.authenticate(user);
+        ResponseEntity<AuthResponse> result = authService.authenticate(user, response);
 
-        assertNull(response.getBody().getToken());
-        assertEquals("User not found", response.getBody().getMessage());
+        assertNull(result.getBody().getToken());
+        assertEquals("User not found", result.getBody().getMessage());
     }
 }
