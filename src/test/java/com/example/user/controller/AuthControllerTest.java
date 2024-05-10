@@ -37,10 +37,10 @@ public class AuthControllerTest {
     @Test
     public void testLogin() {
         User user = new User();
-        AuthResponse expectedResponse = new AuthResponse("testToken", "User authenticated successfully");
-        when(authService.authenticate(user)).thenReturn(ResponseEntity.ok(expectedResponse));
+        AuthResponse expectedResponse = new AuthResponse("testToken", "User registered successfully");
+        when(authService.authenticate(user, null)).thenReturn(ResponseEntity.ok(expectedResponse));
 
-        ResponseEntity<AuthResponse> response = authController.login(user);
+        ResponseEntity<AuthResponse> response = authController.login(user, null);
 
         assertEquals(expectedResponse, response.getBody());
     }
