@@ -1,13 +1,16 @@
 package com.example.user.model;
 
 public class ProfileAddressUpdateRequest {
-    private final String address;
+    private String newAddress;
 
-    public ProfileAddressUpdateRequest(String address) {
-        this.address = address;
+    public ProfileAddressUpdateRequest() {
     }
 
-    public String getAddress() {
-        return address;
+    public ProfileAddressUpdateRequest(String newAddress) {
+        this.newAddress = newAddress;
+    }
+
+    public String getNewAddress() {
+        return newAddress;
     }
 }

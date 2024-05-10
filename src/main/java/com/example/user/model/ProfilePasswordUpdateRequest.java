@@ -1,8 +1,11 @@
 package com.example.user.model;
 
 public class ProfilePasswordUpdateRequest {
-    private final String oldPassword;
-    private final String newPassword;
+    private String oldPassword;
+    private String newPassword;
+
+    public ProfilePasswordUpdateRequest() {
+    }
 
     public ProfilePasswordUpdateRequest(String oldPassword, String newPassword) {
         this.oldPassword = oldPassword;
