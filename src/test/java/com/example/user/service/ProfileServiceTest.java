@@ -65,8 +65,7 @@ public class ProfileServiceTest {
         Token tokenEntity = new Token();
         tokenEntity.setUser(user);
         when(tokenRepository.findByToken(token)).thenReturn(Optional.of(tokenEntity));
-        when(passwordEncoder.encode(oldPassword)).thenReturn("encodedOldPassword");
-        when(passwordEncoder.encode(newPassword)).thenReturn("encodedNewPassword");
+        when(passwordEncoder.matches(oldPassword, user.getPassword())).thenReturn(true);
 
         ResponseEntity<ProfileResponse> response = profileService.updatePassword(token, oldPassword, newPassword);
 
@@ -94,7 +93,7 @@ public class ProfileServiceTest {
         Token tokenEntity = new Token();
         tokenEntity.setUser(user);
         when(tokenRepository.findByToken(token)).thenReturn(Optional.of(tokenEntity));
-        when(passwordEncoder.encode("wrongOldPassword")).thenReturn("encodedWrongOldPassword");
+        when(passwordEncoder.matches("wrongOldPassword", user.getPassword())).thenReturn(false);
 
         ResponseEntity<ProfileResponse> response = profileService.updatePassword(token, "wrongOldPassword", newPassword);
 

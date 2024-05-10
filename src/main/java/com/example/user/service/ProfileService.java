@@ -35,7 +35,8 @@ public class ProfileService {
             return ResponseEntity.badRequest().body(new ProfileResponse("Invalid token", null, null, null, null));
         }
         User user = storedToken.getUser();
-        if (!user.getPassword().equals(passwordEncoder.encode(oldPassword))) {
+        System.out.println(user.getPassword());
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             return ResponseEntity.badRequest().body(new ProfileResponse("Old password is incorrect", null, null, null, null));
         }
         user.setPassword(passwordEncoder.encode(newPassword));
