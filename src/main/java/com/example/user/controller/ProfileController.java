@@ -32,7 +32,7 @@ public class ProfileController {
 
     @DeleteMapping("/profile/delete")
     public ResponseEntity<ProfileResponse> deleteProfile(@CookieValue(value = "jwt") String token, HttpServletResponse response) {
-        response.addHeader("Set-Cookie", "jwt=; HttpOnly; SameSite=None; Secure; Path=/; Max-Age=0");
+        response.addHeader("Set-Cookie", "jwt=; HttpOnly; SameSite=None; Path=/; Max-Age=0");
         return profileService.deleteProfile(token);
     }
 }
