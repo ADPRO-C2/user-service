@@ -130,6 +130,36 @@
 `RESULT 401 /profile/address`
 ```json
 ```
+### Update Balance
+`PUT /profile/balance`
+```json
+{
+  "newAddress": "jakarta"
+}
+```
+`RESULT 200 /profile/address`
+```json
+{
+  "message": "Address updated successfully",
+  "id": null,
+  "username": null,
+  "email": null,
+  "address": null
+}
+```
+`RESULT 400 /profile/address`
+```json
+{
+  "message": "Invalid token",
+  "id": null,
+  "username": null,
+  "email": null,
+  "address": null
+}
+```
+`RESULT 401 /profile/address`
+```json
+```
 ### Update Password
 `PUT /profile/password`
 ```json

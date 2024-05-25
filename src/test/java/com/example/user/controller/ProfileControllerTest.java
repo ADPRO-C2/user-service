@@ -1,6 +1,7 @@
 package com.example.user.controller;
 
 import com.example.user.model.ProfileAddressUpdateRequest;
+import com.example.user.model.ProfileBalanceUpdateRequest;
 import com.example.user.model.ProfilePasswordUpdateRequest;
 import com.example.user.model.ProfileResponse;
 import com.example.user.service.ProfileService;
@@ -61,10 +62,12 @@ public class ProfileControllerTest {
     @Test
     public void testUpdateBalance() {
         String token = "testToken";
-        long balance = 100;
+        long balance = 1000L;
+        ProfileBalanceUpdateRequest request = new ProfileBalanceUpdateRequest(balance);
         ProfileResponse expectedResponse = new ProfileResponse("Balance updated successfully", null, null, null, null);
         when(profileService.updateBalance(token, balance)).thenReturn(ResponseEntity.ok(expectedResponse));
-        ResponseEntity<ProfileResponse> response = profileController.updateBalance(token, balance);
+        when(profileService.updateBalance(token, balance)).thenReturn(ResponseEntity.ok(expectedResponse));
+        ResponseEntity<ProfileResponse> response = profileController.updateBalance(token, request);
         assertEquals(expectedResponse, response.getBody());
     }
 
