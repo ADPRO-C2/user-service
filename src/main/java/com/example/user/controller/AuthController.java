@@ -25,9 +25,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(
-            @RequestBody User request,
-            HttpServletResponse response
+            @RequestBody User request
     ) {
-        return authService.authenticate(request, response);
+        return authService.authenticate(request);
     }
 }

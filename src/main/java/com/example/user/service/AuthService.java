@@ -44,7 +44,7 @@ public class AuthService {
         return ResponseEntity.ok(new AuthResponse(null, "User registered successfully"));
     }
 
-    public ResponseEntity<AuthResponse> authenticate(User request, HttpServletResponse response) {
+    public ResponseEntity<AuthResponse> authenticate(User request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
@@ -58,7 +58,6 @@ public class AuthService {
         jwtService.revokeTokenByUser(user);
         Token jwt = jwtService.saveUserToken(user);
 
-        response.addHeader("Set-Cookie", "jwt=" + jwt.getToken() + "; HttpOnly; SameSite=Lax; Path=/");
         return ResponseEntity.ok(new AuthResponse(jwt.getToken(), "User authenticated successfully"));
     }
 }

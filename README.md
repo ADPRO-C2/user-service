@@ -60,7 +60,7 @@
 }
 ```
 
-### Logout (need jwt Cookie)
+### Logout (need Bearer token in header)
 
 `POST /logout`
 ```json
@@ -71,7 +71,7 @@
 `RESULT 401 /logout`
 ```json
 ```
-## Profile Feature (need jwt Cookie)
+## Profile Feature (need Bearer token in header)
 ### Get Profile
 
 `GET /profile`
