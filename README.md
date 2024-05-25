@@ -134,20 +134,20 @@
 `PUT /profile/balance`
 ```json
 {
-  "newAddress": "jakarta"
+  "newBalance": 100000
 }
 ```
-`RESULT 200 /profile/address`
+`RESULT 200 /profile/balance`
 ```json
 {
-  "message": "Address updated successfully",
+  "message": "Balance updated successfully",
   "id": null,
   "username": null,
   "email": null,
   "address": null
 }
 ```
-`RESULT 400 /profile/address`
+`RESULT 400 /profile/balance`
 ```json
 {
   "message": "Invalid token",
@@ -157,7 +157,7 @@
   "address": null
 }
 ```
-`RESULT 401 /profile/address`
+`RESULT 401 /profile/balance`
 ```json
 ```
 ### Update Password
