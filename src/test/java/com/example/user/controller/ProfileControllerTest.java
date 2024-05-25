@@ -68,6 +68,7 @@ public class ProfileControllerTest {
         ProfileResponse expectedResponse = new ProfileResponse("Balance updated successfully", null, null, null, null, null);
         when(profileService.updateBalance(token, userId, balance)).thenReturn(ResponseEntity.ok(expectedResponse));
         ResponseEntity<ProfileResponse> response = profileController.updateBalance(token, request);
+        assertEquals(expectedResponse, response.getBody());
     }
 
     @Test
