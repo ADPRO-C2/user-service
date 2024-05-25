@@ -33,7 +33,7 @@ public class ProfileController {
 
     @PutMapping("/profile/balance")
     public ResponseEntity<ProfileResponse> updateBalance(@CookieValue(value = "jwt") String token, @RequestBody ProfileBalanceUpdateRequest request) {
-        return profileService.updateBalance(token, request.getNewBalance());
+        return profileService.updateBalance(token, request.getUserId(), request.getAddedBalance());
     }
 
     @DeleteMapping("/profile/delete")

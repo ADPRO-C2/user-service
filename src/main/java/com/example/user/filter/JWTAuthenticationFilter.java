@@ -48,15 +48,26 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
+        if (token == null) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String username = jwtService.extractUsername(token);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            if (jwtService.isValid(token, userDetails)) {
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities()
-                );
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            try {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                if (jwtService.isValid(token, userDetails)) {
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                            userDetails, null, userDetails.getAuthorities()
+                    );
+                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                } else {
+                    response.addHeader("Set-Cookie", "jwt=; HttpOnly; SameSite=None; Path=/; Max-Age=0");
+                }
+            } catch (Exception e) {
+                response.addHeader("Set-Cookie", "jwt=; HttpOnly; SameSite=None; Path=/; Max-Age=0");
             }
             filterChain.doFilter(request, response);
         }

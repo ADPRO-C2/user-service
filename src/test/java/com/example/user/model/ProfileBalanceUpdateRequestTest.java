@@ -10,10 +10,13 @@ public class ProfileBalanceUpdateRequestTest {
     @Test
     public void test() {
         long expectedBalance = 1000L;
-        ProfileBalanceUpdateRequest profileBalanceUpdateRequest = new ProfileBalanceUpdateRequest(expectedBalance);
+        ProfileBalanceUpdateRequest profileBalanceUpdateRequest = new ProfileBalanceUpdateRequest(1, expectedBalance);
         ProfileBalanceUpdateRequest profileBalanceUpdateRequestTest = new ProfileBalanceUpdateRequest();
-        assertEquals(expectedBalance, profileBalanceUpdateRequest.getNewBalance());
+
+        assertNotNull(profileBalanceUpdateRequest);
         assertNotNull(profileBalanceUpdateRequestTest);
+        assertEquals(1, profileBalanceUpdateRequest.getUserId());
+        assertEquals(expectedBalance, profileBalanceUpdateRequest.getAddedBalance());
     }
 
 }

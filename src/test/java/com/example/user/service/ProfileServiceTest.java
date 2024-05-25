@@ -133,8 +133,9 @@ public class ProfileServiceTest {
         Token tokenEntity = new Token();
         tokenEntity.setUser(user);
         when(tokenRepository.findByToken(token)).thenReturn(Optional.of(tokenEntity));
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
-        ResponseEntity<ProfileResponse> response = profileService.updateBalance(token, balance);
+        ResponseEntity<ProfileResponse> response = profileService.updateBalance(token, 1, balance);
 
         assertEquals("Balance updated successfully", response.getBody().getMessage());
     }
@@ -145,9 +146,22 @@ public class ProfileServiceTest {
         long balance = 100;
         when(tokenRepository.findByToken(token)).thenReturn(Optional.empty());
 
-        ResponseEntity<ProfileResponse> response = profileService.updateBalance(token, balance);
+        ResponseEntity<ProfileResponse> response = profileService.updateBalance(token, 1, balance);
 
         assertEquals("Invalid token", response.getBody().getMessage());
+    }
+
+    @Test
+    public void testUpdateBalanceUserNotFound() {
+        String token = "testToken";
+        long balance = 100;
+        User user = new User();
+        Token tokenEntity = new Token();
+        tokenEntity.setUser(user);
+        when(tokenRepository.findByToken(token)).thenReturn(Optional.of(tokenEntity));
+        when(userRepository.findById(1)).thenReturn(Optional.empty());
+
+        ResponseEntity<ProfileResponse> response = profileService.updateBalance(token, 1, balance);
     }
 
     @Test

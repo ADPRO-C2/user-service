@@ -1,16 +1,23 @@
 package com.example.user.model;
 
 public class ProfileBalanceUpdateRequest {
-    private long newBalance;
+
+    private int userId;
+    private long addedBalance;
 
     public ProfileBalanceUpdateRequest() {
     }
 
-    public ProfileBalanceUpdateRequest(long newBalance) {
-        this.newBalance = newBalance;
+    public ProfileBalanceUpdateRequest(int userId, long addedBalance) {
+        this.userId = userId;
+        this.addedBalance = addedBalance;
     }
 
-    public long getNewBalance() {
-        return newBalance;
+    public int getUserId() {
+        return userId;
+    }
+
+    public long getAddedBalance() {
+        return addedBalance;
     }
 }
