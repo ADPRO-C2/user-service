@@ -126,6 +126,31 @@ public class ProfileServiceTest {
     }
 
     @Test
+    public void testUpdateBalance() {
+        String token = "testToken";
+        long balance = 100;
+        User user = new User();
+        Token tokenEntity = new Token();
+        tokenEntity.setUser(user);
+        when(tokenRepository.findByToken(token)).thenReturn(Optional.of(tokenEntity));
+
+        ResponseEntity<ProfileResponse> response = profileService.updateBalance(token, balance);
+
+        assertEquals("Balance updated successfully", response.getBody().getMessage());
+    }
+
+    @Test
+    public void testUpdateBalanceInvalidToken() {
+        String token = "testToken";
+        long balance = 100;
+        when(tokenRepository.findByToken(token)).thenReturn(Optional.empty());
+
+        ResponseEntity<ProfileResponse> response = profileService.updateBalance(token, balance);
+
+        assertEquals("Invalid token", response.getBody().getMessage());
+    }
+
+    @Test
     public void testDeleteProfile() {
         String token = "testToken";
         User user = new User();

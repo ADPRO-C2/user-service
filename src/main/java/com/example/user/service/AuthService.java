@@ -22,8 +22,6 @@ public class AuthService {
     @Autowired
     private JWTService jwtService;
     @Autowired
-    private TokenRepository tokenRepository;
-    @Autowired
     private AuthenticationManager authenticationManager;
 
     public ResponseEntity<AuthResponse> register(User request) {

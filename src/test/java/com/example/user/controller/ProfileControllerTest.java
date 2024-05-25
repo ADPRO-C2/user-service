@@ -59,6 +59,16 @@ public class ProfileControllerTest {
     }
 
     @Test
+    public void testUpdateBalance() {
+        String token = "testToken";
+        long balance = 100;
+        ProfileResponse expectedResponse = new ProfileResponse("Balance updated successfully", null, null, null, null);
+        when(profileService.updateBalance(token, balance)).thenReturn(ResponseEntity.ok(expectedResponse));
+        ResponseEntity<ProfileResponse> response = profileController.updateBalance(token, balance);
+        assertEquals(expectedResponse, response.getBody());
+    }
+
+    @Test
     public void testDeleteProfile() {
         String token = "testToken";
         HttpServletResponse servletResponse = mock(HttpServletResponse.class);

@@ -22,6 +22,7 @@ public class UserTest {
         user.setAddress("testAdress");
         user.setPassword("password");
         user.setRole(Role.USER);
+        user.setBalance(0);
     }
 
     @Test
@@ -75,6 +76,11 @@ public class UserTest {
     }
 
     @Test
+    void getBalance() {
+        assertEquals(0, user.getBalance());
+    }
+
+    @Test
     void getAuthorities() {
         assertEquals("USER", user.getAuthorities().iterator().next().getAuthority());
     }
@@ -113,5 +119,11 @@ public class UserTest {
     void setRole() {
         user.setRole(Role.STAFF);
         assertEquals(Role.STAFF, user.getRole());
+    }
+
+    @Test
+    void setBalance() {
+        user.setBalance(100);
+        assertEquals(100, user.getBalance());
     }
 }

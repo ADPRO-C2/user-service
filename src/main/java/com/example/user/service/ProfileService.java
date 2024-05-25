@@ -57,6 +57,18 @@ public class ProfileService {
         return ResponseEntity.ok(new ProfileResponse("Address updated successfully", null, null, null, null));
     }
 
+    public ResponseEntity<ProfileResponse> updateBalance(String token, long balance) {
+        Token storedToken = tokenRepository.findByToken(token).orElse(null);
+        if (storedToken == null) {
+            return ResponseEntity.badRequest().body(new ProfileResponse("Invalid token", null, null, null, null));
+        }
+        User user = storedToken.getUser();
+        user.setBalance(balance);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(new ProfileResponse("Balance updated successfully", null, null, null, null));
+    }
+
     public ResponseEntity<ProfileResponse> deleteProfile(String token) {
         Token storedToken = tokenRepository.findByToken(token).orElse(null);
         if (storedToken == null) {

@@ -30,6 +30,11 @@ public class ProfileController {
         return profileService.updateAddress(token, request.getNewAddress());
     }
 
+    @PutMapping("/profile/balance")
+    public ResponseEntity<ProfileResponse> updateBalance(@CookieValue(value = "jwt") String token, @RequestParam long balance) {
+        return profileService.updateBalance(token, balance);
+    }
+
     @DeleteMapping("/profile/delete")
     public ResponseEntity<ProfileResponse> deleteProfile(@CookieValue(value = "jwt") String token, HttpServletResponse response) {
         response.addHeader("Set-Cookie", "jwt=; HttpOnly; SameSite=None; Path=/; Max-Age=0");

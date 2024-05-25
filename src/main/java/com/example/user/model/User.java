@@ -25,6 +25,9 @@ public class User implements UserDetails {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "balance")
+    private long balance;
+
     @Column(name = "password")
     private String password;
 
@@ -102,5 +105,13 @@ public class User implements UserDetails {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(long balance) {
+        this.balance = balance;
     }
 }
