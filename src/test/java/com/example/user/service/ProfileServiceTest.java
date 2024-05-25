@@ -162,6 +162,8 @@ public class ProfileServiceTest {
         when(userRepository.findById(1)).thenReturn(Optional.empty());
 
         ResponseEntity<ProfileResponse> response = profileService.updateBalance(token, 1, balance);
+
+        assertEquals("User not found", response.getBody().getMessage());
     }
 
     @Test

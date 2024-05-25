@@ -20,10 +20,12 @@ public class ProfileService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    private static final String INVALID_MESSAGE = "Invalid token";
     public ResponseEntity<ProfileResponse> getProfile(String token) {
         Token storedToken = tokenRepository.findByToken(token).orElse(null);
         if (storedToken == null) {
-            return ResponseEntity.badRequest().body(new ProfileResponse("Invalid token", null, null, null, null, null));
+            return ResponseEntity.badRequest().body(new ProfileResponse(INVALID_MESSAGE, null, null, null, null, null));
         }
         User user = storedToken.getUser();
         return ResponseEntity.ok(new ProfileResponse("User profile retrieved successfully", user.getId(), user.getUsername(), user.getEmail(), user.getAddress(), user.getBalance()));
@@ -32,7 +34,7 @@ public class ProfileService {
     public ResponseEntity<ProfileResponse> updatePassword(String token, String oldPassword, String newPassword) {
         Token storedToken = tokenRepository.findByToken(token).orElse(null);
         if (storedToken == null) {
-            return ResponseEntity.badRequest().body(new ProfileResponse("Invalid token", null, null, null, null, null));
+            return ResponseEntity.badRequest().body(new ProfileResponse(INVALID_MESSAGE, null, null, null, null, null));
         }
         User user = storedToken.getUser();
         System.out.println(user.getPassword());
@@ -48,7 +50,7 @@ public class ProfileService {
     public ResponseEntity<ProfileResponse> updateAddress(String token, String address) {
         Token storedToken = tokenRepository.findByToken(token).orElse(null);
         if (storedToken == null) {
-            return ResponseEntity.badRequest().body(new ProfileResponse("Invalid token", null, null, null, null, null));
+            return ResponseEntity.badRequest().body(new ProfileResponse(INVALID_MESSAGE, null, null, null, null, null));
         }
         User user = storedToken.getUser();
         user.setAddress(address);
@@ -60,7 +62,7 @@ public class ProfileService {
     public ResponseEntity<ProfileResponse> updateBalance(String token, int userId, long balance) {
         Token storedToken = tokenRepository.findByToken(token).orElse(null);
         if (storedToken == null) {
-            return ResponseEntity.badRequest().body(new ProfileResponse("Invalid token", null, null, null, null, null));
+            return ResponseEntity.badRequest().body(new ProfileResponse(INVALID_MESSAGE, null, null, null, null, null));
         }
         User user = userRepository.findById(userId).orElse(null);
         if (user == null) {
@@ -75,12 +77,11 @@ public class ProfileService {
     public ResponseEntity<ProfileResponse> deleteProfile(String token) {
         Token storedToken = tokenRepository.findByToken(token).orElse(null);
         if (storedToken == null) {
-            return ResponseEntity.badRequest().body(new ProfileResponse("Invalid token", null, null, null, null, null));
+            return ResponseEntity.badRequest().body(new ProfileResponse(INVALID_MESSAGE, null, null, null, null, null));
         }
         User user = storedToken.getUser();
         tokenRepository.delete(storedToken);
         userRepository.delete(user);
-        System.out.println("User profile deleted successfully");
 
         return ResponseEntity.ok(new ProfileResponse("User profile deleted successfully", null, null, null, null, null));
     }
