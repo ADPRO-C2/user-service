@@ -1,6 +1,7 @@
 package com.example.user.service;
 
 import com.example.user.model.AuthResponse;
+import com.example.user.model.Role;
 import com.example.user.model.Token;
 import com.example.user.model.User;
 import com.example.user.repository.TokenRepository;
@@ -22,8 +23,6 @@ public class AuthService {
     @Autowired
     private JWTService jwtService;
     @Autowired
-    private TokenRepository tokenRepository;
-    @Autowired
     private AuthenticationManager authenticationManager;
 
     public ResponseEntity<AuthResponse> register(User request) {
@@ -37,8 +36,9 @@ public class AuthService {
         user.setEmail(request.getEmail());
         user.setAddress(request.getAddress());
         user.setUsername(request.getUsername());
+        user.setBalance(0L);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(request.getRole());
+        user.setRole(Role.USER);
         repository.save(user);
 
         return ResponseEntity.ok(new AuthResponse(null, "User registered successfully"));

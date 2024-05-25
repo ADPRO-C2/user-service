@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         req->req.requestMatchers("/login/**","/register/**")
                                 .permitAll()
+                                .requestMatchers("/profile/balance").hasAuthority("STAFF")
                                 .anyRequest()
                                 .authenticated()
                 ).userDetailsService(userDetailsImp)

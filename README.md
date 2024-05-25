@@ -130,6 +130,47 @@
 `RESULT 401 /profile/address`
 ```json
 ```
+### Update Balance (STAFF ONLY)
+`PUT /profile/balance`
+```json
+{
+  "userId": 1,
+  "addedBalance": 300
+}
+```
+`RESULT 200 /profile/balance`
+```json
+{
+  "message": "Balance updated successfully",
+  "id": null,
+  "username": null,
+  "email": null,
+  "address": null
+}
+```
+`RESULT 400 /profile/balance`
+```json
+{
+  "message": "Invalid token",
+  "id": null,
+  "username": null,
+  "email": null,
+  "address": null
+}
+```
+`RESULT 400 /profile/balance`
+```json
+{
+  "message": "User not found",
+  "id": null,
+  "username": null,
+  "email": null,
+  "address": null
+}
+```
+`RESULT 401 /profile/balance`
+```json
+```
 ### Update Password
 `PUT /profile/password`
 ```json

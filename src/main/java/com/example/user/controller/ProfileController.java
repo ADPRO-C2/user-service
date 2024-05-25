@@ -1,6 +1,7 @@
 package com.example.user.controller;
 
 import com.example.user.model.ProfileAddressUpdateRequest;
+import com.example.user.model.ProfileBalanceUpdateRequest;
 import com.example.user.model.ProfilePasswordUpdateRequest;
 import com.example.user.model.ProfileResponse;
 import com.example.user.service.ProfileService;
@@ -28,6 +29,11 @@ public class ProfileController {
     @PutMapping("/profile/address")
     public ResponseEntity<ProfileResponse> updateAddress(@CookieValue(value = "jwt") String token, @RequestBody ProfileAddressUpdateRequest request) {
         return profileService.updateAddress(token, request.getNewAddress());
+    }
+
+    @PutMapping("/profile/balance")
+    public ResponseEntity<ProfileResponse> updateBalance(@CookieValue(value = "jwt") String token, @RequestBody ProfileBalanceUpdateRequest request) {
+        return profileService.updateBalance(token, request.getUserId(), request.getAddedBalance());
     }
 
     @DeleteMapping("/profile/delete")

@@ -13,13 +13,15 @@ public class ProfileResponseTest {
         String expectedUsername = "testUsername";
         String expectedEmail = "testEmail@example.com";
         String expectedAddress = "testAddress";
+        Long expectedBalance = 0L;
 
-        ProfileResponse profileResponse = new ProfileResponse(expectedMessage, expectedId, expectedUsername, expectedEmail, expectedAddress);
+        ProfileResponse profileResponse = new ProfileResponse(expectedMessage, expectedId, expectedUsername, expectedEmail, expectedAddress, expectedBalance);
 
         assertEquals(expectedMessage, profileResponse.getMessage());
         assertEquals(expectedId, profileResponse.getId());
         assertEquals(expectedUsername, profileResponse.getUsername());
         assertEquals(expectedEmail, profileResponse.getEmail());
         assertEquals(expectedAddress, profileResponse.getAddress());
+        assertEquals(expectedBalance, profileResponse.getBalance());
     }
 }
