@@ -26,24 +26,16 @@ public class CustomLogoutHandler implements LogoutHandler {
     public void logout(HttpServletRequest request,
                        HttpServletResponse response,
                        Authentication authentication) {
-        Cookie[] cookies = request.getCookies();
-        String token = null;
+        String authHeader = request.getHeader("Authorization");
 
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("jwt")) {
-                token = cookie.getValue();
-                break;
-            }
-        }
-
-        if(token == null) {
+        if(authHeader == null || !authHeader.startsWith("Bearer ")) {
             return;
         }
 
+        String token = authHeader.substring(7);
         Token storedToken = tokenRepository.findByToken(token).orElse(null);
 
         if(storedToken != null) {
-            response.addHeader("Set-Cookie", "jwt=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0");
             jwtService.revokeTokenByUser(storedToken.getUser());
         }
     }

@@ -93,11 +93,10 @@ public class AuthServiceTest {
 
     @Test
     public void testAuthenticate() {
-        HttpServletResponse response = mock(HttpServletResponse.class);
         when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.of(user));
         when(jwtService.saveUserToken(user)).thenReturn(token);
 
-        ResponseEntity<AuthResponse> result = authService.authenticate(user, response);
+        ResponseEntity<AuthResponse> result = authService.authenticate(user);
 
         assertEquals(token.getToken(), result.getBody().getToken());
         assertEquals("User authenticated successfully", result.getBody().getMessage());
@@ -105,10 +104,9 @@ public class AuthServiceTest {
 
     @Test
     public void testAuthenticateNotFound() {
-        HttpServletResponse response = mock(HttpServletResponse.class);
         when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.empty());
 
-        ResponseEntity<AuthResponse> result = authService.authenticate(user, response);
+        ResponseEntity<AuthResponse> result = authService.authenticate(user);
 
         assertNull(result.getBody().getToken());
         assertEquals("User not found", result.getBody().getMessage());
