@@ -31,12 +31,12 @@ public class ProfileController {
 
     @PutMapping("/profile/balance")
     public ResponseEntity<ProfileResponse> updateBalance(@RequestHeader(value = "Authorization") String token, @RequestBody ProfileBalanceUpdateRequest request) {
-        return profileService.updateBalance(token.substring(7), request.getUserId(), request.getAddedBalance());
+        return profileService.updateBalance(token.substring(7), request.getUserId(), request.getBalance());
     }
 
     @PutMapping("/profile/myBalance")
     public ResponseEntity<ProfileResponse> decreaseMyBalance(@RequestHeader(value = "Authorization") String token, @RequestBody ProfileBalanceUpdateRequest request) {
-        return profileService.decreaseMyBalance(token.substring(7), request.getAddedBalance());
+        return profileService.decreaseMyBalance(token.substring(7), request.getBalance());
     }
 
     @DeleteMapping("/profile/delete")

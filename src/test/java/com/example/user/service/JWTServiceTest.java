@@ -23,73 +23,73 @@ public class JWTServiceTest {
     @InjectMocks
     private JWTService jwtService;
 
-    private Token token;
-    private User user;
+    private Token staticToken;
+    private User staticUser;
 
     @BeforeEach
     public void setup() {
-        ReflectionTestUtils.setField(jwtService, "SECRET_KEY", "ca01c1636a92b9ebd100630a0d4565258c2d70e3057938b09ca3ebc991be40ae");
-        user = new User();
-        user.setUsername("testUser");
-        token = jwtService.saveUserToken(user);
+        ReflectionTestUtils.setField(jwtService, "KEY", "ca01c1636a92b9ebd100630a0d4565258c2d70e3057938b09ca3ebc991be40ae");
+        staticUser = new User();
+        staticUser.setUsername("testUser");
+        staticToken = jwtService.saveUserToken(staticUser);
     }
 
     @Test
     public void testExtractUsername() {
-        String actualUsername = jwtService.extractUsername(token.getToken());
-        assertEquals(user.getUsername(), actualUsername);
+        String actualUsername = jwtService.extractUsername(staticToken.getJwtToken());
+        assertEquals(staticUser.getUsername(), actualUsername);
     }
 
     @Test
     public void testIsValid() {
-        when(tokenRepository.findByToken(token.getToken())).thenReturn(Optional.of(token));
-        boolean isValid = jwtService.isValid(token.getToken(), user);
+        when(tokenRepository.findByJwtToken(staticToken.getJwtToken())).thenReturn(Optional.of(staticToken));
+        boolean isValid = jwtService.isValid(staticToken.getJwtToken(), staticUser);
         assertTrue(isValid);
     }
 
     @Test
     public void testIsValidTokenNotFound() {
-        when(tokenRepository.findByToken(token.getToken())).thenReturn(Optional.empty());
-        boolean isValid = jwtService.isValid(token.getToken(), user);
+        when(tokenRepository.findByJwtToken(staticToken.getJwtToken())).thenReturn(Optional.empty());
+        boolean isValid = jwtService.isValid(staticToken.getJwtToken(), staticUser);
         assertFalse(isValid);
     }
 
     @Test
     public void testIsNotValid() {
-        when(tokenRepository.findByToken(token.getToken())).thenReturn(Optional.of(token));
+        when(tokenRepository.findByJwtToken(staticToken.getJwtToken())).thenReturn(Optional.of(staticToken));
         User user = new User();
         user.setUsername("testUser2");
-        boolean isValid = jwtService.isValid(token.getToken(), user);
+        boolean isValid = jwtService.isValid(staticToken.getJwtToken(), user);
         assertFalse(isValid);
     }
 
     @Test
     public void testIsNotValidLoggedOut() {
-        token.setLoggedOut(true);
-        when(tokenRepository.findByToken(token.getToken())).thenReturn(Optional.of(token));
-        boolean isValid = jwtService.isValid(token.getToken(), user);
+        staticToken.setLoggedOut(true);
+        when(tokenRepository.findByJwtToken(staticToken.getJwtToken())).thenReturn(Optional.of(staticToken));
+        boolean isValid = jwtService.isValid(staticToken.getJwtToken(), staticUser);
         assertFalse(isValid);
     }
 
 
     @Test
     public void testSaveUserToken() {
-        Token token = jwtService.saveUserToken(user);
+        Token token = jwtService.saveUserToken(staticUser);
         verify(tokenRepository, times(1)).save(token);
     }
 
     @Test
     public void testRevokeTokenByUser() {
-        when(tokenRepository.findByUser(user)).thenReturn(Optional.of(token));
-        Token revokedToken = jwtService.revokeTokenByUser(user);
-        verify(tokenRepository, times(1)).delete(token);
-        assertEquals(token, revokedToken);
+        when(tokenRepository.findByUser(staticUser)).thenReturn(Optional.of(staticToken));
+        Token revokedToken = jwtService.revokeTokenByUser(staticUser);
+        verify(tokenRepository, times(1)).delete(staticToken);
+        assertEquals(staticToken, revokedToken);
     }
 
     @Test
     public void testRevokeTokenByUserReturnsNull() {
-        when(tokenRepository.findByUser(user)).thenReturn(Optional.empty());
-        Token revokedToken = jwtService.revokeTokenByUser(user);
+        when(tokenRepository.findByUser(staticUser)).thenReturn(Optional.empty());
+        Token revokedToken = jwtService.revokeTokenByUser(staticUser);
         assertNull(revokedToken);
     }
 }

@@ -4,9 +4,7 @@ import com.example.user.model.AuthResponse;
 import com.example.user.model.Role;
 import com.example.user.model.Token;
 import com.example.user.model.User;
-import com.example.user.repository.TokenRepository;
 import com.example.user.repository.UserRepository;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -58,7 +56,7 @@ public class AuthService {
         jwtService.revokeTokenByUser(user);
         Token jwt = jwtService.saveUserToken(user);
 
-        return ResponseEntity.ok(new AuthResponse(jwt.getToken(), "User authenticated successfully"));
+        return ResponseEntity.ok(new AuthResponse(jwt.getJwtToken(), "User authenticated successfully"));
     }
 
     public ResponseEntity<AuthResponse> logout(String token) {

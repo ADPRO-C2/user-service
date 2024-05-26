@@ -5,14 +5,11 @@ import com.example.user.model.Token;
 import com.example.user.model.User;
 import com.example.user.repository.TokenRepository;
 import com.example.user.repository.UserRepository;
-import com.example.user.service.JWTService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -56,7 +53,7 @@ public class AuthServiceTest {
         user2.setUsername("testUser2");
         user2.setPassword("testPassword2");
         token = new Token();
-        token.setToken("testToken");
+        token.setJwtToken("testToken");
     }
 
     @Test
@@ -98,7 +95,7 @@ public class AuthServiceTest {
 
         ResponseEntity<AuthResponse> result = authService.authenticate(user);
 
-        assertEquals(token.getToken(), result.getBody().getToken());
+        assertEquals(token.getJwtToken(), result.getBody().getToken());
         assertEquals("User authenticated successfully", result.getBody().getMessage());
     }
 
@@ -114,10 +111,10 @@ public class AuthServiceTest {
 
     @Test
     public void testLogout() {
-        when(jwtService.extractUsername(token.getToken())).thenReturn(user.getUsername());
+        when(jwtService.extractUsername(token.getJwtToken())).thenReturn(user.getUsername());
         when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.of(user));
 
-        ResponseEntity<AuthResponse> result = authService.logout(token.getToken());
+        ResponseEntity<AuthResponse> result = authService.logout(token.getJwtToken());
 
         assertNull(result.getBody().getToken());
         assertEquals("User logged out successfully", result.getBody().getMessage());
@@ -125,10 +122,10 @@ public class AuthServiceTest {
 
     @Test
     public void testLogoutNotFound() {
-        when(jwtService.extractUsername(token.getToken())).thenReturn(user.getUsername());
+        when(jwtService.extractUsername(token.getJwtToken())).thenReturn(user.getUsername());
         when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.empty());
 
-        ResponseEntity<AuthResponse> result = authService.logout(token.getToken());
+        ResponseEntity<AuthResponse> result = authService.logout(token.getJwtToken());
 
         assertNull(result.getBody().getToken());
         assertEquals("User not found", result.getBody().getMessage());
