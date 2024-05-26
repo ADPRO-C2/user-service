@@ -3,21 +3,21 @@ package com.example.user.model;
 public class ProfileBalanceUpdateRequest {
 
     private int userId;
-    private long addedBalance;
+    private long balance;
 
     public ProfileBalanceUpdateRequest() {
     }
 
-    public ProfileBalanceUpdateRequest(int userId, long addedBalance) {
+    public ProfileBalanceUpdateRequest(int userId, long balance) {
         this.userId = userId;
-        this.addedBalance = addedBalance;
+        this.balance = balance;
     }
 
     public int getUserId() {
         return userId;
     }
 
-    public long getAddedBalance() {
-        return addedBalance;
+    public long getBalance() {
+        return balance;
     }
 }

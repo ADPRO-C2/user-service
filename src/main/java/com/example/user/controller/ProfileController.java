@@ -5,7 +5,6 @@ import com.example.user.model.ProfileBalanceUpdateRequest;
 import com.example.user.model.ProfilePasswordUpdateRequest;
 import com.example.user.model.ProfileResponse;
 import com.example.user.service.ProfileService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +32,11 @@ public class ProfileController {
     @PutMapping("/profile/balance")
     public ResponseEntity<ProfileResponse> updateBalance(@RequestHeader(value = "Authorization") String token, @RequestBody ProfileBalanceUpdateRequest request) {
         return profileService.updateBalance(token.substring(7), request.getUserId(), request.getAddedBalance());
+    }
+
+    @PutMapping("/profile/myBalance")
+    public ResponseEntity<ProfileResponse> decreaseMyBalance(@RequestHeader(value = "Authorization") String token, @RequestBody ProfileBalanceUpdateRequest request) {
+        return profileService.decreaseMyBalance(token.substring(7), request.getAddedBalance());
     }
 
     @DeleteMapping("/profile/delete")
