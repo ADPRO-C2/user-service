@@ -44,4 +44,15 @@ public class AuthControllerTest {
 
         assertEquals(expectedResponse, response.getBody());
     }
+
+    @Test
+    public void testLogout() {
+        String token = "Bearer testToken";
+        AuthResponse expectedResponse = new AuthResponse(null, "User logged out successfully");
+        when(authService.logout("testToken")).thenReturn(ResponseEntity.ok(expectedResponse));
+
+        ResponseEntity<AuthResponse> response = authController.logout(token);
+
+        assertEquals(expectedResponse, response.getBody());
+    }
 }

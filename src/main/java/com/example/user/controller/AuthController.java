@@ -3,11 +3,11 @@ package com.example.user.controller;
 import com.example.user.model.AuthResponse;
 import com.example.user.model.User;
 import com.example.user.service.AuthService;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,5 +28,12 @@ public class AuthController {
             @RequestBody User request
     ) {
         return authService.authenticate(request);
+    }
+
+    @PostMapping("/userLogout")
+    public ResponseEntity<AuthResponse> logout(
+            @RequestHeader(value = "Authorization") String token
+    ) {
+        return authService.logout(token.substring(7));
     }
 }
