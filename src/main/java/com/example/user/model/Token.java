@@ -12,7 +12,7 @@ public class Token {
     private Integer id;
 
     @Column(name = "token")
-    private String token;
+    private String jwtToken;
 
     @Column(name = "is_logged_out")
     private boolean loggedOut;
@@ -29,12 +29,12 @@ public class Token {
         this.id = id;
     }
 
-    public String getToken() {
-        return token;
+    public String getJwtToken() {
+        return jwtToken;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setJwtToken(String token) {
+        this.jwtToken = token;
     }
 
     public boolean isLoggedOut() {

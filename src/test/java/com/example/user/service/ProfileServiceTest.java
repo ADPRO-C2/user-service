@@ -38,7 +38,7 @@ public class ProfileServiceTest {
         User user = new User();
         Token tokenEntity = new Token();
         tokenEntity.setUser(user);
-        when(tokenRepository.findByToken(token)).thenReturn(Optional.of(tokenEntity));
+        when(tokenRepository.findByJwtToken(token)).thenReturn(Optional.of(tokenEntity));
 
         ResponseEntity<ProfileResponse> response = profileService.getProfile(token);
 
@@ -48,7 +48,7 @@ public class ProfileServiceTest {
     @Test
     public void testGetProfileInvalidToken() {
         String token = "testToken";
-        when(tokenRepository.findByToken(token)).thenReturn(Optional.empty());
+        when(tokenRepository.findByJwtToken(token)).thenReturn(Optional.empty());
 
         ResponseEntity<ProfileResponse> response = profileService.getProfile(token);
 
@@ -64,7 +64,7 @@ public class ProfileServiceTest {
         user.setPassword("encodedOldPassword");
         Token tokenEntity = new Token();
         tokenEntity.setUser(user);
-        when(tokenRepository.findByToken(token)).thenReturn(Optional.of(tokenEntity));
+        when(tokenRepository.findByJwtToken(token)).thenReturn(Optional.of(tokenEntity));
         when(passwordEncoder.matches(oldPassword, user.getPassword())).thenReturn(true);
 
         ResponseEntity<ProfileResponse> response = profileService.updatePassword(token, oldPassword, newPassword);
@@ -77,7 +77,7 @@ public class ProfileServiceTest {
         String token = "testToken";
         String oldPassword = "oldPassword";
         String newPassword = "newPassword";
-        when(tokenRepository.findByToken(token)).thenReturn(Optional.empty());
+        when(tokenRepository.findByJwtToken(token)).thenReturn(Optional.empty());
 
         ResponseEntity<ProfileResponse> response = profileService.updatePassword(token, oldPassword, newPassword);
 
@@ -92,7 +92,7 @@ public class ProfileServiceTest {
         user.setPassword("encodedOldPassword");
         Token tokenEntity = new Token();
         tokenEntity.setUser(user);
-        when(tokenRepository.findByToken(token)).thenReturn(Optional.of(tokenEntity));
+        when(tokenRepository.findByJwtToken(token)).thenReturn(Optional.of(tokenEntity));
         when(passwordEncoder.matches("wrongOldPassword", user.getPassword())).thenReturn(false);
 
         ResponseEntity<ProfileResponse> response = profileService.updatePassword(token, "wrongOldPassword", newPassword);
@@ -107,7 +107,7 @@ public class ProfileServiceTest {
         User user = new User();
         Token tokenEntity = new Token();
         tokenEntity.setUser(user);
-        when(tokenRepository.findByToken(token)).thenReturn(Optional.of(tokenEntity));
+        when(tokenRepository.findByJwtToken(token)).thenReturn(Optional.of(tokenEntity));
 
         ResponseEntity<ProfileResponse> response = profileService.updateAddress(token, address);
 
@@ -118,7 +118,7 @@ public class ProfileServiceTest {
     public void testUpdateAddressInvalidToken() {
         String token = "testToken";
         String address = "newAddress";
-        when(tokenRepository.findByToken(token)).thenReturn(Optional.empty());
+        when(tokenRepository.findByJwtToken(token)).thenReturn(Optional.empty());
 
         ResponseEntity<ProfileResponse> response = profileService.updateAddress(token, address);
 
@@ -132,7 +132,7 @@ public class ProfileServiceTest {
         User user = new User();
         Token tokenEntity = new Token();
         tokenEntity.setUser(user);
-        when(tokenRepository.findByToken(token)).thenReturn(Optional.of(tokenEntity));
+        when(tokenRepository.findByJwtToken(token)).thenReturn(Optional.of(tokenEntity));
         when(userRepository.findById(1)).thenReturn(Optional.of(user));
 
         ResponseEntity<ProfileResponse> response = profileService.updateBalance(token, 1, balance);
@@ -144,7 +144,7 @@ public class ProfileServiceTest {
     public void testUpdateBalanceInvalidToken() {
         String token = "testToken";
         long balance = 100;
-        when(tokenRepository.findByToken(token)).thenReturn(Optional.empty());
+        when(tokenRepository.findByJwtToken(token)).thenReturn(Optional.empty());
 
         ResponseEntity<ProfileResponse> response = profileService.updateBalance(token, 1, balance);
 
@@ -158,7 +158,7 @@ public class ProfileServiceTest {
         User user = new User();
         Token tokenEntity = new Token();
         tokenEntity.setUser(user);
-        when(tokenRepository.findByToken(token)).thenReturn(Optional.of(tokenEntity));
+        when(tokenRepository.findByJwtToken(token)).thenReturn(Optional.of(tokenEntity));
         when(userRepository.findById(1)).thenReturn(Optional.empty());
 
         ResponseEntity<ProfileResponse> response = profileService.updateBalance(token, 1, balance);
@@ -167,12 +167,53 @@ public class ProfileServiceTest {
     }
 
     @Test
+    public void testDecreaseMyBalance() {
+        String token = "testToken";
+        long balance = 100;
+        User user = new User();
+        user.setBalance(200);
+        Token tokenEntity = new Token();
+        tokenEntity.setUser(user);
+        when(tokenRepository.findByJwtToken(token)).thenReturn(Optional.of(tokenEntity));
+
+        ResponseEntity<ProfileResponse> response = profileService.decreaseMyBalance(token, balance);
+
+        assertEquals("Balance updated successfully", response.getBody().getMessage());
+    }
+
+    @Test
+    public void testDecreaseMyBalanceInvalidToken() {
+        String token = "testToken";
+        long balance = 100;
+        when(tokenRepository.findByJwtToken(token)).thenReturn(Optional.empty());
+
+        ResponseEntity<ProfileResponse> response = profileService.decreaseMyBalance(token, balance);
+
+        assertEquals("Invalid token", response.getBody().getMessage());
+    }
+
+    @Test
+    public void testDecreaseMyBalanceNotEnoughBalance() {
+        String token = "testToken";
+        long balance = 300;
+        User user = new User();
+        user.setBalance(200);
+        Token tokenEntity = new Token();
+        tokenEntity.setUser(user);
+        when(tokenRepository.findByJwtToken(token)).thenReturn(Optional.of(tokenEntity));
+
+        ResponseEntity<ProfileResponse> response = profileService.decreaseMyBalance(token, balance);
+
+        assertEquals("Not enough balance", response.getBody().getMessage());
+    }
+
+    @Test
     public void testDeleteProfile() {
         String token = "testToken";
         User user = new User();
         Token tokenEntity = new Token();
         tokenEntity.setUser(user);
-        when(tokenRepository.findByToken(token)).thenReturn(Optional.of(tokenEntity));
+        when(tokenRepository.findByJwtToken(token)).thenReturn(Optional.of(tokenEntity));
 
         ResponseEntity<ProfileResponse> response = profileService.deleteProfile(token);
 
@@ -182,7 +223,7 @@ public class ProfileServiceTest {
     @Test
     public void testDeleteProfileInvalidToken() {
         String token = "testToken";
-        when(tokenRepository.findByToken(token)).thenReturn(Optional.empty());
+        when(tokenRepository.findByJwtToken(token)).thenReturn(Optional.empty());
 
         ResponseEntity<ProfileResponse> response = profileService.deleteProfile(token);
 

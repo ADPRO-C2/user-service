@@ -16,7 +16,7 @@ public class ProfileBalanceUpdateRequestTest {
         assertNotNull(profileBalanceUpdateRequest);
         assertNotNull(profileBalanceUpdateRequestTest);
         assertEquals(1, profileBalanceUpdateRequest.getUserId());
-        assertEquals(expectedBalance, profileBalanceUpdateRequest.getAddedBalance());
+        assertEquals(expectedBalance, profileBalanceUpdateRequest.getBalance());
     }
 
 }

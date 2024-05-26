@@ -23,7 +23,7 @@ public class ProfileService {
 
     private static final String INVALID_MESSAGE = "Invalid token";
     public ResponseEntity<ProfileResponse> getProfile(String token) {
-        Token storedToken = tokenRepository.findByToken(token).orElse(null);
+        Token storedToken = tokenRepository.findByJwtToken(token).orElse(null);
         if (storedToken == null) {
             return ResponseEntity.badRequest().body(new ProfileResponse(INVALID_MESSAGE, null, null, null, null, null));
         }
@@ -32,12 +32,11 @@ public class ProfileService {
     }
 
     public ResponseEntity<ProfileResponse> updatePassword(String token, String oldPassword, String newPassword) {
-        Token storedToken = tokenRepository.findByToken(token).orElse(null);
+        Token storedToken = tokenRepository.findByJwtToken(token).orElse(null);
         if (storedToken == null) {
             return ResponseEntity.badRequest().body(new ProfileResponse(INVALID_MESSAGE, null, null, null, null, null));
         }
         User user = storedToken.getUser();
-        System.out.println(user.getPassword());
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
             return ResponseEntity.badRequest().body(new ProfileResponse("Old password is incorrect", null, null, null, null, null));
         }
@@ -48,7 +47,7 @@ public class ProfileService {
     }
 
     public ResponseEntity<ProfileResponse> updateAddress(String token, String address) {
-        Token storedToken = tokenRepository.findByToken(token).orElse(null);
+        Token storedToken = tokenRepository.findByJwtToken(token).orElse(null);
         if (storedToken == null) {
             return ResponseEntity.badRequest().body(new ProfileResponse(INVALID_MESSAGE, null, null, null, null, null));
         }
@@ -60,7 +59,7 @@ public class ProfileService {
     }
 
     public ResponseEntity<ProfileResponse> updateBalance(String token, int userId, long balance) {
-        Token storedToken = tokenRepository.findByToken(token).orElse(null);
+        Token storedToken = tokenRepository.findByJwtToken(token).orElse(null);
         if (storedToken == null) {
             return ResponseEntity.badRequest().body(new ProfileResponse(INVALID_MESSAGE, null, null, null, null, null));
         }
@@ -74,8 +73,23 @@ public class ProfileService {
         return ResponseEntity.ok(new ProfileResponse("Balance updated successfully", null, null, null, null, null));
     }
 
+    public ResponseEntity<ProfileResponse> decreaseMyBalance(String token, long balance) {
+        Token storedToken = tokenRepository.findByJwtToken(token).orElse(null);
+        if (storedToken == null) {
+            return ResponseEntity.badRequest().body(new ProfileResponse(INVALID_MESSAGE, null, null, null, null, null));
+        }
+        User user = storedToken.getUser();
+        if (user.getBalance() < balance) {
+            return ResponseEntity.badRequest().body(new ProfileResponse("Not enough balance", null, null, null, null, null));
+        }
+        user.setBalance(user.getBalance() - balance);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(new ProfileResponse("Balance updated successfully", null, null, null, null, null));
+    }
+
     public ResponseEntity<ProfileResponse> deleteProfile(String token) {
-        Token storedToken = tokenRepository.findByToken(token).orElse(null);
+        Token storedToken = tokenRepository.findByJwtToken(token).orElse(null);
         if (storedToken == null) {
             return ResponseEntity.badRequest().body(new ProfileResponse(INVALID_MESSAGE, null, null, null, null, null));
         }

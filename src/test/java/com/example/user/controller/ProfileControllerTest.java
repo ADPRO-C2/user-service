@@ -70,6 +70,17 @@ public class ProfileControllerTest {
     }
 
     @Test
+    public void testDecreaseMyBalance() {
+        String token = "Bearer testToken";
+        long balance = 1000L;
+        ProfileBalanceUpdateRequest request = new ProfileBalanceUpdateRequest(1, balance);
+        ProfileResponse expectedResponse = new ProfileResponse("Balance updated successfully", null, null, null, null, null);
+        when(profileService.decreaseMyBalance(token.substring(7), balance)).thenReturn(ResponseEntity.ok(expectedResponse));
+        ResponseEntity<ProfileResponse> response = profileController.decreaseMyBalance(token, request);
+        assertEquals(expectedResponse, response.getBody());
+    }
+
+    @Test
     public void testDeleteProfile() {
         String token = "Bearer testToken";
         ProfileResponse expectedResponse = new ProfileResponse("Profile deleted successfully", null, null, null, null, null);

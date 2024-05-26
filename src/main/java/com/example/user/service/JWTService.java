@@ -20,7 +20,7 @@ import java.util.function.Function;
 public class JWTService {
 
     @Value("${jwt.secret}")
-    private String SECRET_KEY;
+    private String key;
 
     @Autowired
     private TokenRepository tokenRepository;
@@ -49,18 +49,17 @@ public class JWTService {
     }
 
     private String generateToken(User user) {
-        String token = Jwts
+        return Jwts
                 .builder()
                 .subject(user.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 24*60*60*1000 ))
                 .signWith(getSigninKey())
                 .compact();
-        return token;
     }
 
     private SecretKey getSigninKey() {
-        byte[] keyBytes = Decoders.BASE64URL.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64URL.decode(key);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -71,7 +70,7 @@ public class JWTService {
 
     public boolean isValid(String token, UserDetails user) {
         String username = extractUsername(token);
-        Token findedToken = tokenRepository.findByToken(token).orElse(null);
+        Token findedToken = tokenRepository.findByJwtToken(token).orElse(null);
         boolean validToken = false;
         if (findedToken != null) {
             validToken = !findedToken.isLoggedOut();
@@ -82,7 +81,7 @@ public class JWTService {
     public Token saveUserToken(User user) {
         String jwt = generateToken(user);
         Token token = new Token();
-        token.setToken(jwt);
+        token.setJwtToken(jwt);
         token.setLoggedOut(false);
         token.setUser(user);
         tokenRepository.save(token);
