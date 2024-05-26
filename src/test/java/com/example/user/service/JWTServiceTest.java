@@ -28,7 +28,7 @@ public class JWTServiceTest {
 
     @BeforeEach
     public void setup() {
-        ReflectionTestUtils.setField(jwtService, "KEY", "ca01c1636a92b9ebd100630a0d4565258c2d70e3057938b09ca3ebc991be40ae");
+        ReflectionTestUtils.setField(jwtService, "key", "ca01c1636a92b9ebd100630a0d4565258c2d70e3057938b09ca3ebc991be40ae");
         staticUser = new User();
         staticUser.setUsername("testUser");
         staticToken = jwtService.saveUserToken(staticUser);

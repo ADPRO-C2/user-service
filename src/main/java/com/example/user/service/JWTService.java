@@ -20,7 +20,7 @@ import java.util.function.Function;
 public class JWTService {
 
     @Value("${jwt.secret}")
-    private String KEY;
+    private String key;
 
     @Autowired
     private TokenRepository tokenRepository;
@@ -59,7 +59,7 @@ public class JWTService {
     }
 
     private SecretKey getSigninKey() {
-        byte[] keyBytes = Decoders.BASE64URL.decode(KEY);
+        byte[] keyBytes = Decoders.BASE64URL.decode(key);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
