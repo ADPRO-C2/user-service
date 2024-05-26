@@ -62,13 +62,24 @@
 
 ### Logout (need Bearer token in header)
 
-`POST /logout`
+`POST /userLogout`
 ```json
 ```
-`RESULT 200 /logout`
+`RESULT 200 /userLogout`
 ```json
+{
+  "token": null,
+  "message": "User logged out successfully"
+}
 ```
-`RESULT 401 /logout`
+`RESULT 400 /userLogout`
+```json
+{
+  "token": null,
+  "message": "User not found"
+}
+```
+`RESULT 401 /userLogout`
 ```json
 ```
 ## Profile Feature (need Bearer token in header)

@@ -111,4 +111,26 @@ public class AuthServiceTest {
         assertNull(result.getBody().getToken());
         assertEquals("User not found", result.getBody().getMessage());
     }
+
+    @Test
+    public void testLogout() {
+        when(jwtService.extractUsername(token.getToken())).thenReturn(user.getUsername());
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.of(user));
+
+        ResponseEntity<AuthResponse> result = authService.logout(token.getToken());
+
+        assertNull(result.getBody().getToken());
+        assertEquals("User logged out successfully", result.getBody().getMessage());
+    }
+
+    @Test
+    public void testLogoutNotFound() {
+        when(jwtService.extractUsername(token.getToken())).thenReturn(user.getUsername());
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(java.util.Optional.empty());
+
+        ResponseEntity<AuthResponse> result = authService.logout(token.getToken());
+
+        assertNull(result.getBody().getToken());
+        assertEquals("User not found", result.getBody().getMessage());
+    }
 }
