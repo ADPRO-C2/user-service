@@ -3,7 +3,6 @@ package com.example.user.config;
 import com.example.user.model.Token;
 import com.example.user.repository.TokenRepository;
 import com.example.user.service.JWTService;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Configuration;
