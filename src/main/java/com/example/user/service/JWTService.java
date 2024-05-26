@@ -5,6 +5,7 @@ import com.example.user.model.User;
 import com.example.user.repository.TokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.function.Function;
+
 
 @Service
 public class JWTService {
@@ -40,12 +42,18 @@ public class JWTService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts
+        try {
+            return Jwts
                 .parser()
                 .verifyWith(getSigninKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+        } catch (MalformedJwtException e) {
+            throw new RuntimeException("Invalid JWT token format");
+        } catch (Exception e) {
+            throw new RuntimeException("JWT token parsing error");
+        }
     }
 
     private String generateToken(User user) {
