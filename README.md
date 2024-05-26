@@ -146,7 +146,7 @@
 ```json
 {
   "userId": 1,
-  "addedBalance": 300
+  "balance": 300
 }
 ```
 `RESULT 200 /profile/balance`
@@ -183,14 +183,13 @@
 ```json
 ```
 ### Decrease My Balance
-`PUT /profile/balance`
+`PUT /profile/myBalance`
 ```json
 {
-  "userId": 1,
-  "addedBalance": 300
+  "balance": 300
 }
 ```
-`RESULT 200 /profile/balance`
+`RESULT 200 /profile/myBalance`
 ```json
 {
   "message": "Balance updated successfully",
@@ -200,7 +199,7 @@
   "address": null
 }
 ```
-`RESULT 400 /profile/balance`
+`RESULT 400 /profile/myBalance`
 ```json
 {
   "message": "Invalid token",
@@ -210,7 +209,7 @@
   "address": null
 }
 ```
-`RESULT 400 /profile/balance`
+`RESULT 400 /profile/myBalance`
 ```json
 {
   "message": "Not enough balance",
@@ -220,7 +219,7 @@
   "address": null
 }
 ```
-`RESULT 400 /profile/balance`
+`RESULT 400 /profile/myBalance`
 ```json
 {
   "message": "User not found",
@@ -230,7 +229,7 @@
   "address": null
 }
 ```
-`RESULT 401 /profile/balance`
+`RESULT 401 /profile/myBalance`
 ```json
 ```
 ### Update Password
